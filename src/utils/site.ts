@@ -47,8 +47,8 @@ export function navbarModel(currentPath: string, wide?: boolean): NavbarModel {
   return {
     wide: wide ?? false,
     homePath: sitePath(''),
-    aboutPath: sitePath('about'),
     tweakerPath: sitePath('i-dont-like-this-website'),
+    labsUrl: siteConfig.curlSwiggerLabsUrl,
     currentSlug: currentNavSlug(currentPath, base),
     menuId: 'site-nav-menu',
   }
@@ -68,15 +68,25 @@ export function footerLinks() {
 function footerNavLinks(base: string, homeHref: string): FooterLink[] {
   const links = [
     footerLink('Home', homeHref, false),
-    footerLink('About', `${base}/about`, false),
     footerLink('I don\'t like this website', `${base}/i-dont-like-this-website`, false),
   ]
 
+  const extra: FooterLink[] = []
+  const labs = curlSwiggerLabsLink()
   const github = githubLink()
 
-  if (!github) return links
+  if (labs) extra.push(labs)
+  if (github) extra.push(github)
 
-  return [...links, github]
+  return [...links, ...extra]
+}
+
+function curlSwiggerLabsLink(): FooterLink | undefined {
+  const href = siteConfig.curlSwiggerLabsUrl.trim()
+
+  if (href.length === 0) return
+
+  return footerLink('CurlSwiggerLabs', href, true)
 }
 
 function githubLink(): FooterLink | undefined {

@@ -18,8 +18,8 @@ export interface ChooseProps {
 export interface NavbarModel {
   wide: boolean;
   homePath: string;
-  aboutPath: string;
   tweakerPath: string;
+  labsUrl: string;
   currentSlug: string;
   menuId: string;
 }

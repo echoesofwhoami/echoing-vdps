@@ -6,4 +6,5 @@ export const siteConfig = {
   githubProfileUrl: 'https://github.com/echoesofwhoami',
   linkedinUrl: '',
   blogSourceUrl: 'https://github.com/echoesofwhoami/CurlSwiggerLabs',
+  curlSwiggerLabsUrl: 'https://curlswiggerlabs.echoesofwhoami.com',
 } as const

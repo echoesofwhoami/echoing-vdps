@@ -5,7 +5,7 @@ import '@styles/layout/Navbar.css'
 
 const { currentPath, wide: wideProp } = Astro.props
 
-const { wide, homePath, aboutPath, tweakerPath, currentSlug, menuId } = navbarModel(
+const { wide, homePath, tweakerPath, labsUrl, currentSlug, menuId } = navbarModel(
   currentPath,
   wideProp,
 )
@@ -14,9 +14,9 @@ const { wide, homePath, aboutPath, tweakerPath, currentSlug, menuId } = navbarMo
 <header class="navbar" data-controller="navbar" data-navbar>
   <nav class:list={['nav-container', { wide }]} aria-label="Primary">
     <div class="nav-brand">
-      <a href={homePath} class="brand-link" aria-label="echoingvdps">
+      <a href={homePath} class="brand-link" aria-label="EchoingVdps">
         <img src="/echoes.png" alt="" class="brand-icon" />
-        <span class="brand-wordmark">echoing<span>vdps</span></span>
+        <span class="brand-wordmark">Echoing<span>Vdps</span></span>
       </a>
     </div>
 
@@ -44,17 +44,17 @@ const { wide, homePath, aboutPath, tweakerPath, currentSlug, menuId } = navbarMo
           </a>
         </li>
         <li>
-          <a href={aboutPath} aria-current={ariaCurrent(currentSlug, 'about')} data-action="click->navbar#close">
-            About
-          </a>
-        </li>
-        <li>
           <a
             href={tweakerPath}
             aria-current={ariaCurrent(currentSlug, 'i-dont-like-this-website')}
             data-action="click->navbar#close"
           >
             I don't like this website
+          </a>
+        </li>
+        <li>
+          <a href={labsUrl} target="_blank" rel="noreferrer" data-action="click->navbar#close">
+            CurlSwiggerLabs
           </a>
         </li>
       </ul>

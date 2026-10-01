@@ -12,7 +12,7 @@ export async function GET(context: APIContext) {
   }
 
   return rss({
-    title: 'echoingvdps',
+    title: 'EchoingVdps',
     description: 'Educational writeups of vulnerability disclosure and bug bounty reports.',
     site,
     trailingSlash: false,
