@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 405" role="img" aria-labelledby="title desc">
+  <title id="title">Sample post</title>
+  <desc id="desc">A dark terminal showing the placeholder hello post, with the line to replace highlighted.</desc>
+  <rect width="720" height="405" fill="#0f1117"/>
+  <circle cx="30" cy="30" r="6" fill="#dc2626"/><circle cx="52" cy="30" r="6" fill="#475569"/><circle cx="74" cy="30" r="6" fill="#475569"/>
+  <path d="M0 57h720" stroke="#334155"/>
+  <g transform="translate(-20 -30) scale(1.08)" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="22">
+    <text x="66" y="143" fill="#dc2626">$</text><text x="94" y="143" fill="#e2e8f0">cat src/content/blog/hello.mdx</text>
+    <text x="66" y="198" fill="#94a3b8">title: Hello</text>
+    <rect x="54" y="228" width="560" height="46" rx="4" fill="#dc2626" opacity=".16"/>
+    <text x="70" y="258" fill="#ef4444">Replace this when there is a real post.</text>
+  </g>
+</svg>

@@ -1,6 +1,20 @@
+import { existsSync, statSync } from 'node:fs'
+import { join } from 'node:path'
 import { getCollection } from 'astro:content'
 import type { BlogPost, Heading, LabLink } from '../types/post'
 import { sitePath } from './site'
+
+export function postImages(slug: string) {
+  const dir = join(process.cwd(), 'public/images/posts')
+  const svgPath = join(dir, `${slug}.svg`)
+  const pngPath = join(dir, `${slug}.png`)
+  const version = existsSync(svgPath) ? Math.floor(statSync(svgPath).mtimeMs) : 0
+
+  return {
+    coverImage: existsSync(svgPath) ? `/images/posts/${slug}.svg?v=${version}` : undefined,
+    ogImage: existsSync(pngPath) ? `/images/posts/${slug}.png` : undefined,
+  }
+}
 
 export function getPostSlug(id: string): string {
   return id.replace(/\.mdx?$/, '')

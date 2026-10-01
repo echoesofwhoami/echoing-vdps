@@ -1,7 +1,7 @@
 ---
 import { render } from 'astro:content'
 import type { PostLayoutProps as Props } from '@types'
-import { postPage } from '@utils'
+import { postImages, postPage } from '@utils'
 import Layout from './Layout.astro'
 import PostHeader from '@components/post/PostHeader.astro'
 import PostNav from '@components/post/PostNav.astro'
@@ -10,7 +10,8 @@ import '@styles/layouts/PostLayout.css'
 
 const { post } = Astro.props
 
-const { older, newer } = await postPage(post)
+const { slug, older, newer } = await postPage(post)
+const { ogImage } = postImages(slug)
 
 const { Content, headings } = await render(post)
 ---
@@ -19,6 +20,7 @@ const { Content, headings } = await render(post)
   title={post.data.title}
   description={post.data.description}
   type="article"
+  image={ogImage}
   publishedTime={new Date(post.data.date).toISOString()}
   wide
 >

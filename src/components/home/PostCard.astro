@@ -1,14 +1,20 @@
 ---
-import { formatDate, getPostSlug, sitePath } from '@utils'
+import { formatDate, getPostSlug, postImages, sitePath } from '@utils'
 import type { PostCardProps as Props } from '@types'
 import '@styles/home/PostCard.css'
 
 const { post } = Astro.props
 
 const href = sitePath(getPostSlug(post.id))
+const { coverImage } = postImages(getPostSlug(post.id))
 ---
 
 <article class="post-card">
+  {coverImage && (
+    <a class="post-card__image-link" href={href} tabindex="-1" aria-hidden="true">
+      <img class="post-card__image" src={coverImage} alt="" width="720" height="405" loading="lazy" />
+    </a>
+  )}
   <div class="post-card__body">
     <time class="post-card__meta" datetime={post.data.date}>{formatDate(post.data.date)}</time>
     <h2><a href={href}>{post.data.title}</a></h2>

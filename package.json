@@ -9,7 +9,7 @@
     "astro": "astro",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "og:covers": "bash scripts/convert-category-covers.sh"
+    "og:covers": "bash scripts/convert-post-covers.sh"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.2.4",
