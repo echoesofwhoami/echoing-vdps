@@ -1,0 +1,23 @@
+---
+import Choose from '@components/Choose.astro'
+import { headingsOnPage } from '@utils'
+import type { TableOfContentsProps as Props } from '@types'
+import '@styles/post/TableOfContents.css'
+
+const { headings } = Astro.props
+
+const visibleHeadings = headingsOnPage(headings)
+---
+
+<Choose if={visibleHeadings.length > 0}>
+  <nav slot="then" class="table-of-contents" aria-labelledby="toc-title">
+    <h2 id="toc-title">On this page</h2>
+    <ol>
+      {visibleHeadings.map((heading) => (
+        <li class:list={{ nested: heading.depth === 3 }}>
+          <a href={`#${heading.slug}`}>{heading.text}</a>
+        </li>
+      ))}
+    </ol>
+  </nav>
+</Choose>

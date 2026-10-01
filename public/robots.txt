@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://curlswiggerlabs.echoesofwhoami.com/sitemap-index.xml

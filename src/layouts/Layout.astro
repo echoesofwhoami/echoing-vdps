@@ -1,0 +1,78 @@
+---
+import '../styles/global.css'
+import Choose from '@components/Choose.astro'
+import Footer from '@components/layout/Footer.astro'
+import Navbar from '@components/layout/Navbar.astro'
+import type { LayoutProps as Props } from '@types'
+import { layoutHead } from '@utils/layout'
+
+const {
+  type,
+  wide,
+  title,
+  description,
+  canonicalURL,
+  pathname,
+  ogImageURL,
+  ogImageType,
+  ogImageWidth,
+  ogImageHeight,
+  articleTime,
+} = layoutHead(Astro.props, Astro.url, Astro.site)
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content={description} />
+
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="icon" type="image/png" href={`${import.meta.env.BASE_URL}favicon.ico`} />
+
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="echoingvdps" />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:image:secure_url" content={ogImageURL} />
+    <meta property="og:image:type" content={ogImageType} />
+    <meta property="og:image:width" content={ogImageWidth} />
+    <meta property="og:image:height" content={ogImageHeight} />
+    <meta property="og:image:alt" content={title} />
+    <Choose if={!!articleTime}>
+      <meta slot="then" property="article:published_time" content={articleTime} />
+    </Choose>
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
+
+    <meta name="robots" content="index, follow" />
+
+    <link rel="alternate" type="application/rss+xml" title="echoingvdps" href={new URL('/rss.xml', Astro.site)} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <script>
+import { bootTheme } from '../scripts/theme-boot'
+
+bootTheme()
+    </script>
+    <script>
+import '../controllers'
+    </script>
+
+    <title>{title}</title>
+  </head>
+  <body>
+    <Navbar currentPath={pathname} wide={wide} />
+    <slot />
+    <Footer />
+  </body>
+</html>

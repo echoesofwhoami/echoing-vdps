@@ -1,0 +1,28 @@
+---
+import { postNavLinks } from '@utils'
+import Choose from '@components/Choose.astro'
+import type { PostNavProps as Props } from '@types'
+import '@styles/post/PostNav.css'
+
+const { older, newer } = Astro.props
+
+const { olderLink, newerLink } = postNavLinks(older, newer)
+---
+
+<Choose if={!!(olderLink || newerLink)}>
+  <nav slot="then" class="post-nav" aria-label="Older and newer posts">
+    <Choose if={!!olderLink}>
+      <a slot="then" class="post-nav-link older" href={olderLink?.href}>
+        <span>Older</span>
+        <strong>{olderLink?.title}</strong>
+      </a>
+      <span slot="else" />
+    </Choose>
+    <Choose if={!!newerLink}>
+      <a slot="then" class="post-nav-link newer" href={newerLink?.href}>
+        <span>Newer</span>
+        <strong>{newerLink?.title}</strong>
+      </a>
+    </Choose>
+  </nav>
+</Choose>

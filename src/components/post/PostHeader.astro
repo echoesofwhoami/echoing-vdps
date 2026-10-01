@@ -1,0 +1,13 @@
+---
+import { formatDate } from '@utils'
+import type { PostHeaderProps as Props } from '@types'
+import '@styles/post/PostHeader.css'
+
+const { title, description, date } = Astro.props
+---
+
+<header class="post-header">
+  <h1>{title}</h1>
+  <p class="post-description">{description}</p>
+  <time datetime={date}>{formatDate(date)}</time>
+</header>

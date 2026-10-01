@@ -1,0 +1,32 @@
+---
+import { footerLinks } from '@utils'
+import '@styles/layout/Footer.css'
+
+const { homeHref, links } = footerLinks()
+---
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-brand">
+      <a class="footer-brand__link" href={homeHref}>
+        <img src="/echoes.png" alt="" width="32" height="32" />
+        <span class="footer-wordmark">echoing<span>vdps</span></span>
+      </a>
+      <p>A blog about my VDP reports.</p>
+    </div>
+
+    <nav class="footer-nav" aria-label="Footer">
+      <ul>
+        {
+          links.map((link) => (
+            <li>
+              <a href={link.href} target={link.target} rel={link.rel}>
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</footer>

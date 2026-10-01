@@ -1,0 +1,63 @@
+---
+import type { NavbarProps as Props } from '@types'
+import { ariaCurrent, navbarModel } from '@utils'
+import '@styles/layout/Navbar.css'
+
+const { currentPath, wide: wideProp } = Astro.props
+
+const { wide, homePath, aboutPath, tweakerPath, currentSlug, menuId } = navbarModel(
+  currentPath,
+  wideProp,
+)
+---
+
+<header class="navbar" data-controller="navbar" data-navbar>
+  <nav class:list={['nav-container', { wide }]} aria-label="Primary">
+    <div class="nav-brand">
+      <a href={homePath} class="brand-link" aria-label="echoingvdps">
+        <img src="/echoes.png" alt="" class="brand-icon" />
+        <span class="brand-wordmark">echoing<span>vdps</span></span>
+      </a>
+    </div>
+
+    <button
+      class="nav-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls={menuId}
+      aria-label="Open menu"
+      data-navbar-target="toggle"
+      data-action="click->navbar#toggle"
+    >
+      <span class="nav-toggle__bars" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+    </button>
+
+    <div class="nav-right" id={menuId} data-navbar-target="menu">
+      <ul>
+        <li>
+          <a href={homePath} aria-current={ariaCurrent(currentSlug, '')} data-action="click->navbar#close">
+            Home
+          </a>
+        </li>
+        <li>
+          <a href={aboutPath} aria-current={ariaCurrent(currentSlug, 'about')} data-action="click->navbar#close">
+            About
+          </a>
+        </li>
+        <li>
+          <a
+            href={tweakerPath}
+            aria-current={ariaCurrent(currentSlug, 'i-dont-like-this-website')}
+            data-action="click->navbar#close"
+          >
+            I don't like this website
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>

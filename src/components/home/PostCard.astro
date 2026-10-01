@@ -1,0 +1,18 @@
+---
+import { formatDate, getPostSlug, sitePath } from '@utils'
+import type { PostCardProps as Props } from '@types'
+import '@styles/home/PostCard.css'
+
+const { post } = Astro.props
+
+const href = sitePath(getPostSlug(post.id))
+---
+
+<article class="post-card">
+  <div class="post-card__body">
+    <time class="post-card__meta" datetime={post.data.date}>{formatDate(post.data.date)}</time>
+    <h2><a href={href}>{post.data.title}</a></h2>
+    <p>{post.data.description}</p>
+    <a class="post-card__read-more" href={href}>Read post</a>
+  </div>
+</article>

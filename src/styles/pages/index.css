@@ -1,0 +1,52 @@
+.home-page {
+  max-width: none;
+  padding: 0;
+}
+
+.home-page .home-shell {
+  width: min(1180px, calc(100% - 40px));
+  margin-inline: auto;
+  padding-block: 4rem 5rem;
+}
+
+.home-page .home-intro h1 {
+  margin: 0 0 1rem;
+  color: var(--heading);
+  font-size: clamp(2.8rem, 8vw, 5rem);
+  letter-spacing: -0.07em;
+}
+
+.home-page .home-intro h1 span {
+  color: var(--accent);
+}
+
+.home-page .home-intro .lede {
+  max-width: 40rem;
+  margin: 0 0 1.25rem;
+  color: var(--heading);
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  line-height: 1.35;
+}
+
+.home-page .home-intro p:not(.lede) {
+  max-width: 40rem;
+  margin: 0 0 0.9rem;
+  color: var(--text);
+  font-size: 1.05rem;
+}
+
+.home-page .reports {
+  margin-top: 3.5rem;
+}
+
+.home-page .reports h2 {
+  margin: 0 0 1.5rem;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+}
+
+@media (max-width: 640px) {
+  .home-page .home-shell {
+    width: min(100% - 28px, 1180px);
+    padding-block: 3rem 4rem;
+  }
+}

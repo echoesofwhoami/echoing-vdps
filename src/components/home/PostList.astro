@@ -1,0 +1,13 @@
+---
+import PostCard from '@components/home/PostCard.astro'
+import type { PostListProps as Props } from '@types'
+import '@styles/home/PostList.css'
+
+const { posts } = Astro.props
+---
+
+<section class="post-list" aria-label="Posts">
+  <div class="post-list__grid">
+    {posts.map((post) => <PostCard post={post} />)}
+  </div>
+</section>

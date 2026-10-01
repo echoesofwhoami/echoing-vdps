@@ -1,0 +1,32 @@
+---
+import Layout from '../layouts/Layout.astro'
+import PostList from '@components/home/PostList.astro'
+import { postsByDate } from '@utils'
+import '@styles/pages/index.css'
+
+const posts = await postsByDate()
+
+const description = 'Educational writeups of my vulnerability disclosure and bug bounty reports.'
+---
+
+<Layout title="echoingvdps" description={description} wide>
+  <main class="home-page">
+    <div class="home-shell">
+      <header class="home-intro">
+        <h1 id="home-title">echoing<span>vdps</span></h1>
+        <p class="lede">Educational writeups of my vulnerability disclosure and bug bounty reports.</p>
+        <p>
+          This site explains reports I have submitted. A post is the same finding, written so it can be read as a
+          lesson: what was wrong, how I reached it, what the impact is, which mitigations were put in place, and
+          which ones I recommended.
+        </p>
+        <p>That is the whole point of the blog. The notes below are those explanations.</p>
+      </header>
+
+      <section class="reports" id="reports" aria-labelledby="reports-title">
+        <h2 id="reports-title">Reports</h2>
+        <PostList posts={posts} />
+      </section>
+    </div>
+  </main>
+</Layout>

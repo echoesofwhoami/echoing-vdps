@@ -1,0 +1,15 @@
+services:
+  dev:
+    build: .
+    container_name: echoingvdps-dev
+    ports:
+      - "4321:4321"
+    volumes:
+      # Share ./node_modules with the host so the IDE/TypeScript see the same deps as the container.
+      # (An anonymous /app/node_modules volume hid installs from Cursor.)
+      - .:/app
+    environment:
+      - NODE_ENV=development
+    # The bind mount hides node_modules installed in the image. Install into
+    # the mount so the host and the container share the same deps, then start.
+    command: sh -c "bun install && bun run dev"
